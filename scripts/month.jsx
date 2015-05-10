@@ -5,6 +5,7 @@ require('moment-range');
 import Day from './day';
 import csp from 'js-csp';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 export default class Month extends React.Component {
 
@@ -14,23 +15,17 @@ export default class Month extends React.Component {
     var selectedRange = moment.range(this.props.selections.startDate, this.props.selections.endDate);
     var eventChan = this.props.eventChan;
     var dates = [];
-    /*
-    range.by('days', date => {
-      var className = selectedRange.contains(date) ? "selected" : "";
-      days.push(<Day 
-        key={date.format('YYYY-MM-DD')}
-        date={date}
-        className={className}
-        eventChan={eventChan} />);
-    });
-    */
+
     range.by('days', date => dates.push(date));
-    var weeks = _.chain(dates).chunk(7).map(wk => {
-      var days = _.map(wk, date => {
-        var className = selectedRange.contains(date) ? "selected" : "";
+    var weeks = _.chain(dates).chunk(7).map((wk, wkIndex) => {
+      var days = _.map(wk, (day, dayIndex) => {
+        var className = classNames({
+          selected: selectedRange.contains(day),
+          day_shoulder: Math.abs(day.date() - (wkIndex * 7 + dayIndex)) > 6
+        });
         return (<Day 
-          key={date.format('YYYY-MM-DD')}
-          date={date}
+          key={day.format('YYYY-MM-DD')}
+          date={day}
           className={className}
           eventChan={eventChan} />);
       });

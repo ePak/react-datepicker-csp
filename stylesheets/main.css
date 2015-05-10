@@ -8,11 +8,9 @@
 .week {
 }
 
-/*
 .day {
-  display: table;
-  float: left;
-  #border: 1px solid black;
+  display: inline-flex;
+  align-items: center;
   width: 2rem;
   height: 2rem;
   margin: 1px;
@@ -25,26 +23,21 @@
 }
 
 .day .text {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
-*/
-
-.day {
-  display: inline-flex;
-  align-items: center;
-  width: 2rem;
-  height: 2rem;
-  margin: 1px;
-  background-color: #eee;
-}
-
-.day.selected {
-  background-color: #aaa;
-}
-
-.day .text {
   margin: auto;
 }
 
+.day_shoulder {
+  position: relative;
+}
+
+.day_shoulder:after {
+  content: " ";
+  z-index: 10;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.6);
+}

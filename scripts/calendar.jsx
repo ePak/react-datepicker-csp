@@ -8,14 +8,15 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment("2015-5-3"),
-      endDate: moment("2015-5-6")
+      inProgress: 0,
+      startDate: null,
+      endDate: null
     };
 
   }
 
   render() {
-    console.log('Calendar.render()');
+    //console.log('Calendar.render()');
     return (
       <Month 
         year={this.props.year} 
@@ -35,61 +36,62 @@ export default class Calendar extends React.Component {
         if (event === csp.CLOSED) {
           return;
         }
-        if (event.action === "selectDate") {
-          cal._selectDateHandler(event.date);
-        } else if (event.action === "mouseOver") {
-          cal._mouseOverDateHandler(event.date);
+        switch(event.action) {
+          case "selectDate":
+            cal._selectDateHandler(event.date);
+            break;
+          case "mouseOver":
+            cal._mouseOverDateHandler(event.date);
+            break;
+          default:
         }
       }
     });
   }
 
   _selectDateHandler(date) {
-    //if (this.state.startDate && this.state.endDate) {
     if (!this.state.inProgress) {
       this.setState({
         inProgress: 1,
         startDate: date,
-        endDate: null
+        endDate: date
       });
-    }
-    if (this.state.inProgress) {
+    } else if (this.state.inProgress > 0) {
       this.setState({
-        inProgress: true,
-        startDate: date,
-        endDate: null
+        inProgress: 0,
+        endDate: date
       });
-    } else if (this.state.startDate) {
-      if (date.isAfter(this.state.startDate) {
-        this.setState({ endDate: date });
-      } else {
-        this.setState({
-          startDate: date,
-          endDate: this.state.startDate
-        });
-      }
     } else {
-      this.setState({ startDate: date });
+      this.setState({
+        inProgress: 0,
+        startDate: date
+      });
     }
   }
 
   _mouseOverDateHandler(date) {
-
-  }
-
-  _getNewRange(date) {
-    if (this.state.startDate && this.state.endDate) {
-      return {
-        startDate: date,
-        endDate: null
-      };
-    } else if (!this.state.startDate && !this.state.endDate) {
-      return { startDate: date };
+    if (!this.state.inProgress) {
+      return;
+    } else if (this.state.inProgress > 0) {
+      if (date.isBefore(this.state.startDate)) {
+        this.setState({
+          inProgress: -1,
+          startDate: date,
+          endDate: this.state.startDate
+        });
+      } else {
+        this.setState({ endDate: date });
+      }
     } else {
-      return {
-        startDate: this.state.startDate || date,
-        endDate: this.state.endDate || date
-      };
+      if (date.isAfter(this.state.endDate)) {
+        this.setState({
+          inProgress: 1,
+          startDate: this.state.endDate,
+          endDate: date
+        });
+      } else {
+        this.setState({ startDate: date });
+      }
     }
   }
 

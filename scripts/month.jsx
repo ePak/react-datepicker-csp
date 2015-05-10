@@ -9,7 +9,7 @@ import _ from 'lodash';
 export default class Month extends React.Component {
 
   render() {
-    console.log("Month.render()");
+    //console.log("Month.render()");
     var range = Month.getDisplayRange(this.props.year, this.props.month);
     var selectedRange = moment.range(this.props.selections.startDate, this.props.selections.endDate);
     var eventChan = this.props.eventChan;

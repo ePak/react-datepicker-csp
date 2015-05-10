@@ -29,11 +29,18 @@
   "devDependencies": {
     "babel-core": "^5.1.11",
     "babel-loader": "^5.0.0",
+    "expose-loader": "^0.6.0",
     "react-hot-loader": "^1.2.2",
     "webpack": "^1.7.2",
     "webpack-dev-server": "^1.7.0"
   },
   "dependencies": {
+    "babel-runtime": "^5.2.6",
+    "immutable": "^3.7.2",
+    "js-csp": "^0.4.1",
+    "lodash": "^3.8.0",
+    "moment": "^2.10.2",
+    "moment-range": "^1.0.9",
     "react": "^0.13.0"
   }
 }

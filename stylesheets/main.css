@@ -1,0 +1,49 @@
+.calendar {
+}
+
+.month {
+  display: inline-block;
+}
+
+.week {
+}
+
+/*
+.day {
+  display: table;
+  float: left;
+  #border: 1px solid black;
+  width: 2rem;
+  height: 2rem;
+  margin: 1px;
+  background-color: #eee;
+}
+
+.day.selected {
+  background-color: #aaa;
+}
+
+.day .text {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+*/
+
+.day {
+  display: inline-flex;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 1px;
+  background-color: #eee;
+}
+
+.day.selected {
+  background-color: #aaa;
+}
+
+.day .text {
+  margin: auto;
+}
+

@@ -1,9 +1,10 @@
 import React from 'react';
+import Calendar from './calendar';
 
 export default class App extends React.Component {
   render() {
     return (
-      <h1>Hello, world.</h1>
+      <Calendar name="Matt" month={5}/>
     );
   }
 }

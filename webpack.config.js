@@ -23,8 +23,18 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loaders: ['react-hot', 'babel'],
+      loaders: ['react-hot', 'babel?optional=runtime'],
       include: path.join(__dirname, 'scripts')
+    }, {
+      test: /\.js$/,
+      include: path.join(__dirname, 'node_modules', 'js-csp'),
+      loader: 'babel'
+    }, {
+      test: /moment\.js$/, 
+      loader: 'expose?moment'
+    }, {
+      test: /immutable\.js$/, 
+      loader: 'expose?Immutable'
     }]
   }
 };

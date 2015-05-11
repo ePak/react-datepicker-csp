@@ -18,11 +18,16 @@ export default class Calendar extends React.Component {
   render() {
     //console.log('Calendar.render()');
     return (
-      <Month 
-        year={this.props.year} 
-        month={this.props.month - 1}
-        eventChan={this.state.chan}
-        selections={this.state}/>
+      <div className="calendar">
+        <Month
+          date={moment({year: this.props.year, month: this.props.month - 1})}
+          eventChan={this.state.chan}
+          selections={this.state}/>
+        <Month
+          date={moment({year: this.props.year, month: this.props.month})}
+          eventChan={this.state.chan}
+          selections={this.state}/>
+      </div>
     );
   }
 

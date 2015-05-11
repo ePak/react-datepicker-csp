@@ -11,15 +11,15 @@ export default class Month extends React.Component {
 
   render() {
     //console.log("Month.render()");
-    var range = Month.getDisplayRange(this.props.year, this.props.month);
-    var selectedRange = moment.range(this.props.selections.startDate, this.props.selections.endDate);
-    var eventChan = this.props.eventChan;
-    var dates = [];
+    const range = Month.getDisplayRange(this.props.date);
+    const selectedRange = moment.range(this.props.selections.startDate, this.props.selections.endDate);
 
+    var dates = [];
     range.by('days', date => dates.push(date));
-    var weeks = _.chain(dates).chunk(7).map((wk, wkIndex) => {
-      var days = _.map(wk, (day, dayIndex) => {
-        var className = classNames({
+
+    const weeks = _.chain(dates).chunk(7).map((wk, wkIndex) => {
+      const days = _.map(wk, (day, dayIndex) => {
+        const className = classNames({
           selected: selectedRange.contains(day),
           day_shoulder: Math.abs(day.date() - (wkIndex * 7 + dayIndex)) > 6
         });
@@ -27,13 +27,20 @@ export default class Month extends React.Component {
           key={day.format('YYYY-MM-DD')}
           date={day}
           className={className}
-          eventChan={eventChan} />);
+          eventChan={this.props.eventChan} />);
       });
       return (<div className="week" key={wk[0].isoWeek()}>{days}</div>);
     }).value();
 
     return (
       <div className="month">
+        <div className="month-header">
+          <div className="month-backward glyphicon glyphicon-chevron-left"></div>
+          <div className="month-caption">
+            {this.props.date.format("MMMM YYYY")}
+          </div>
+          <div className="month-forward glyphicon glyphicon-chevron-right"></div>
+        </div>
         {weeks}
       </div>
     );
@@ -57,16 +64,15 @@ export default class Month extends React.Component {
   }
   */
 
-  static getDisplayRange(year, month) {
-    const startDate = moment({year: year, month: month}).startOf('month').startOf('isoWeek');
-    const endDate = moment({year: year, month: month}).endOf('month').endOf('isoWeek');
+  static getDisplayRange(date) {
+    const startDate = date.clone().startOf('month').startOf('isoWeek');
+    const endDate = date.clone().endOf('month').endOf('isoWeek');
     return moment().range(startDate, endDate);
   }
 }
 
 Month.propTypes = {
-  year: React.PropTypes.number.isRequired,
-  month: React.PropTypes.number.isRequired,
+  date: React.PropTypes.object.isRequired,
   eventChan: React.PropTypes.object.isRequired,
   selection: React.PropTypes.object
 };

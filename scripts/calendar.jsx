@@ -8,9 +8,12 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inProgress: 0,
-      startDate: null,
-      endDate: null
+      date: moment({year: this.props.year, month: this.props.month - 1}),
+      selected: {
+        inProgress: 0,
+        startDate: null,
+        endDate: null
+      }
     };
 
   }
@@ -20,13 +23,13 @@ export default class Calendar extends React.Component {
     return (
       <div className="calendar">
         <Month
-          date={moment({year: this.props.year, month: this.props.month - 1})}
+          date={this.state.date}
           eventChan={this.state.chan}
-          selections={this.state}/>
+          selections={this.state.selected}/>
         <Month
-          date={moment({year: this.props.year, month: this.props.month})}
+          date={this.state.date.clone().add(1, 'months')}
           eventChan={this.state.chan}
-          selections={this.state}/>
+          selections={this.state.selected}/>
       </div>
     );
   }
@@ -48,6 +51,8 @@ export default class Calendar extends React.Component {
           case "mouseOver":
             cal._mouseOverDateHandler(event.date);
             break;
+          case "changeMonth":
+            cal._changeMonthHandler(event.num);
           default:
         }
       }
@@ -55,49 +60,57 @@ export default class Calendar extends React.Component {
   }
 
   _selectDateHandler(date) {
-    if (!this.state.inProgress) {
-      this.setState({
+    let newSelected = null;
+    if (!this.state.selected.inProgress) {
+      newSelected = {
         inProgress: 1,
         startDate: date,
         endDate: date
-      });
-    } else if (this.state.inProgress > 0) {
-      this.setState({
+      };
+    } else if (this.state.selected.inProgress > 0) {
+      newSelected = {
         inProgress: 0,
         endDate: date
-      });
+      };
     } else {
-      this.setState({
+      newSelected = {
         inProgress: 0,
         startDate: date
-      });
+      };
     }
+    this.setState({ selected: _.extend({}, this.state.selected, newSelected)});
   }
 
   _mouseOverDateHandler(date) {
-    if (!this.state.inProgress) {
+    let newSelected = null;
+    if (!this.state.selected.inProgress) {
       return;
-    } else if (this.state.inProgress > 0) {
-      if (date.isBefore(this.state.startDate)) {
-        this.setState({
+    } else if (this.state.selected.inProgress > 0) {
+      if (date.isBefore(this.state.selected.startDate)) {
+        newSelected = {
           inProgress: -1,
           startDate: date,
-          endDate: this.state.startDate
-        });
+          endDate: this.state.selected.startDate
+        };
       } else {
-        this.setState({ endDate: date });
+        newSelected = { endDate: date };
       }
     } else {
-      if (date.isAfter(this.state.endDate)) {
-        this.setState({
+      if (date.isAfter(this.state.selected.endDate)) {
+        newSelected = {
           inProgress: 1,
-          startDate: this.state.endDate,
+          startDate: this.state.selected.endDate,
           endDate: date
-        });
+        };
       } else {
-        this.setState({ startDate: date });
+        newSelected = { startDate: date };
       }
     }
+    this.setState({ selected: _.extend({}, this.state.selected, newSelected)});
+  }
+
+  _changeMonthHandler(num) {
+    this.setState({ date: this.state.date.clone().add(num, 'months') });
   }
 
   componentWillUnmount() {

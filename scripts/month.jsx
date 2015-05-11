@@ -35,15 +35,23 @@ export default class Month extends React.Component {
     return (
       <div className="month">
         <div className="month-header">
-          <div className="month-backward glyphicon glyphicon-chevron-left"></div>
+          <div className="month-backward glyphicon glyphicon-chevron-left"
+               onClick={this._monthClickHandler.bind(this, -1)}></div>
           <div className="month-caption">
             {this.props.date.format("MMMM YYYY")}
           </div>
-          <div className="month-forward glyphicon glyphicon-chevron-right"></div>
+          <div className="month-forward glyphicon glyphicon-chevron-right"
+               onClick={this._monthClickHandler.bind(this, 1)}></div>
         </div>
         {weeks}
       </div>
     );
+  }
+
+  _monthClickHandler(num, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    csp.putAsync(this.props.eventChan, {action: "changeMonth", num: num});
   }
 
   /*

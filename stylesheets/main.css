@@ -16,6 +16,7 @@
 .month {
   display: inline-block;
   margin: 5px;
+  vertical-align: top;
 }
 
 .month-header {
@@ -30,6 +31,7 @@
   height: 2rem;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .month-forward:before,

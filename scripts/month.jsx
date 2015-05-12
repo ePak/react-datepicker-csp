@@ -12,7 +12,7 @@ export default class Month extends React.Component {
   render() {
     //console.log("Month.render()");
     const range = Month.getDisplayRange(this.props.date);
-    const selectedRange = moment.range(this.props.selections.startDate, this.props.selections.endDate);
+    const selectedRange = moment.range(this.props.selected.startDate, this.props.selected.endDate);
 
     var dates = [];
     range.by('days', date => dates.push(date));
@@ -54,24 +54,6 @@ export default class Month extends React.Component {
     csp.putAsync(this.props.eventChan, {action: "changeMonth", num: num});
   }
 
-  /*
-  componentWillReceiveProps(nextProps) {
-    if ((nextProps.year != this.props.year) ||
-        (nextProps.month != this.props.month)) {
-      this.setState({ 
-        year: nextProps.year,
-        month: nextProps.month,
-        range: Month.getRange(nextProps.year, nextProps.month)
-      });
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return ((nextProps.year != this.props.year) ||
-            (nextProps.month != this.props.month));
-  }
-  */
-
   static getDisplayRange(date) {
     const startDate = date.clone().startOf('month').startOf('isoWeek');
     const endDate = date.clone().endOf('month').endOf('isoWeek');
@@ -82,5 +64,5 @@ export default class Month extends React.Component {
 Month.propTypes = {
   date: React.PropTypes.object.isRequired,
   eventChan: React.PropTypes.object.isRequired,
-  selection: React.PropTypes.object
+  selected: React.PropTypes.object.isRequired
 };

@@ -35,14 +35,12 @@ export default class Day extends React.Component {
   _clickHandler(event) {
     event.preventDefault();
     event.stopPropagation();
-    //csp.putAsync(this.props.eventChan, {action: "selectDate", date: this.props.date.clone()});
     this._putEvent("selectDate");
   }
 
   _mouseOverHandler(event) {
     event.preventDefault();
     event.stopPropagation();
-    //csp.putAsync(this.props.eventChan, {action: "mouseOver", date: this.props.date.clone()});
     this._putEvent("mouseOver");
   }
 

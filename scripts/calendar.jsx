@@ -1,5 +1,4 @@
 import React from 'react';
-//require('babel-core/polyfill');
 import Month from './month';
 import moment from 'moment';
 import csp from 'js-csp';
@@ -25,11 +24,11 @@ export default class Calendar extends React.Component {
         <Month
           date={this.state.date}
           eventChan={this.state.chan}
-          selections={this.state.selected}/>
+          selected={this.state.selected}/>
         <Month
           date={this.state.date.clone().add(1, 'months')}
           eventChan={this.state.chan}
-          selections={this.state.selected}/>
+          selected={this.state.selected}/>
       </div>
     );
   }

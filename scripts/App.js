@@ -1,10 +1,10 @@
 import React from 'react';
-import Calendar from './calendar';
+import DatePicker from './datepicker';
 
 export default class App extends React.Component {
   render() {
     return (
-      <Calendar name="Matt" month={5}/>
+      <DatePicker name="Matt" month={5} options={{ range: true }} />
     );
   }
 }

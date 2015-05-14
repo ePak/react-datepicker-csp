@@ -7,7 +7,7 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: moment({year: this.props.year, month: this.props.month - 1}),
+      date: props.date,
       selected: {
         inProgress: 0,
         startDate: null,
@@ -19,16 +19,23 @@ export default class Calendar extends React.Component {
 
   render() {
     //console.log('Calendar.render()');
+    let secondMonth = null;
+    if (this.props.options.range) {
+      secondMonth = (
+        <Month
+          date={this.state.date.clone().add(1, 'months')}
+          eventChan={this.state.chan}
+          selected={this.state.selected}/>
+      );
+    }
+
     return (
       <div className="calendar">
         <Month
           date={this.state.date}
           eventChan={this.state.chan}
           selected={this.state.selected}/>
-        <Month
-          date={this.state.date.clone().add(1, 'months')}
-          eventChan={this.state.chan}
-          selected={this.state.selected}/>
+        { secondMonth }
       </div>
     );
   }
@@ -62,7 +69,7 @@ export default class Calendar extends React.Component {
     let newSelected = null;
     if (!this.state.selected.inProgress) {
       newSelected = {
-        inProgress: 1,
+        inProgress: this.props.options.range ? 1: 0,
         startDate: date,
         endDate: date
       };
@@ -77,7 +84,22 @@ export default class Calendar extends React.Component {
         startDate: date
       };
     }
-    this.setState({ selected: _.extend({}, this.state.selected, newSelected)});
+    this.setState(
+      { selected: _.extend({}, this.state.selected, newSelected) },
+      () => {
+        if (!this.props.eventChan)
+          return;
+
+        let selected = this.state.selected;
+        let cloneSelected = {
+          inProgress: selected.inProgress,
+          startDate: selected.startDate.clone(),
+          endDate: selected.endDate.clone()
+        };
+        csp.putAsync(this.props.eventChan,
+                     { action: "selectDate", selected: cloneSelected })
+      }
+    );
   }
 
   _mouseOverDateHandler(date) {
@@ -119,12 +141,17 @@ export default class Calendar extends React.Component {
 
 Calendar.propTypes = {
   year: React.PropTypes.number,
-  month: React.PropTypes.number
+  month: React.PropTypes.number,
+  date: React.PropTypes.object,
+  eventChan: React.PropTypes.object,
+  options: React.PropTypes.object
 };
 
 Calendar.defaultProps = {
   year: moment().year(),
-  month: moment().month() + 1
+  month: moment().month() + 1,
+  date: moment().startOf('month'),
+  options: { range: false }
 };
 
 

@@ -10,6 +10,21 @@
   box-sizing: border-box;
 }
 
+.datepicker {
+  display: inline-block;
+}
+
+.datepicker-inputs {
+  display: flex;
+  margin: 5px;
+}
+
+.datepicker-inputs > input {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0 10px;
+}
+
 .calendar {
 }
 
@@ -21,7 +36,6 @@
 
 .month-header {
   display: flex;
-  align-items: center;
   margin: 2px 0;
 }
 

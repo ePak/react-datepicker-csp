@@ -21,9 +21,9 @@ export default class DatePicker extends React.Component {
     let inputs; 
     if (this.props.options.range) {
       inputs = [
-        <input ref="input-startdate" value={formatDate(startDate)} />,
+        <input ref="input-startdate" value={formatDate(startDate)} readOnly />,
         <span>to</span>,
-        <input ref="input-enddate" value={formatDate(endDate)} />
+        <input ref="input-enddate" value={formatDate(endDate)} readOnly />
       ];
     } else {
       inputs = (<input ref="input-date" value={ formatDate(startDate) } readOnly /> );

@@ -17,6 +17,7 @@
 .datepicker-inputs {
   display: flex;
   margin: 5px;
+  align-items: center;
 }
 
 .datepicker-inputs > input {
@@ -54,6 +55,21 @@
 }
 
 .month-caption {
+  margin: auto;
+}
+
+.weekday-header {
+}
+
+.weekday {
+  display: inline-flex;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 1px;
+}
+
+.weekday .text {
   margin: auto;
 }
 

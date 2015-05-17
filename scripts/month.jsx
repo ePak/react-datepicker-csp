@@ -8,6 +8,21 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 export default class Month extends React.Component {
+  static dayOfWeekHeader() {
+    //let weekday = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+    let weekday = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+    return (
+      <div className="weekday-header">
+        { weekday.map((name) => (
+          <span className="weekday" key={name}>
+            <span className="text">
+              { name }
+            </span>
+          </span>) ) }
+      </div>
+    );
+  }
+
 
   render() {
     //console.log("Month.render()");
@@ -43,6 +58,7 @@ export default class Month extends React.Component {
           <div className="month-forward glyphicon glyphicon-chevron-right"
                onClick={this._monthClickHandler.bind(this, 1)}></div>
         </div>
+        { Month.dayOfWeekHeader() }
         {weeks}
       </div>
     );

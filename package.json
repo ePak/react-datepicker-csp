@@ -39,7 +39,7 @@
     "classnames": "^2.1.1",
     "immutable": "^3.7.2",
     "js-csp": "^0.4.1",
-    "lodash": "^3.8.0",
+    "lodash": "^4.17.19",
     "moment": "^2.10.2",
     "moment-range": "^1.0.9",
     "react": "^0.13.0"
